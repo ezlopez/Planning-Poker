@@ -1,0 +1,150 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-color: rgb(242, 242, 243);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  border: 2px solid black;
+  background-color: slategray;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+}
+
+main {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+footer {
+  border: 2px solid black;
+  width: 100%;
+  background-color: slategray;
+  color: white;
+  /* position: sticky;
+  bottom: 0; */
+  margin: auto;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+section {
+  background-color: aliceblue;
+  border: 2px solid black;
+}
+
+section h1 {
+  padding: 0.5rem;
+}
+
+table {
+  background-color: rgb(242, 242, 243);
+  margin: 0.5rem;
+  margin-top: 0;
+  border: 1px solid black;
+}
+
+th {
+  text-align: left;
+  background-color: slategray;
+  color: white;
+  padding: 0.5rem;
+}
+
+th:last-child,
+td:last-child {
+  width: 5rem;
+  text-align: center;
+}
+
+tr {
+  min-height: 2em;
+}
+
+td {
+  padding: 0.5rem;
+}
+
+tr:nth-child(odd) {
+  background-color: gainsboro;
+}
+
+@media screen and (max-width: 481px) {
+  .header-pp-icon {
+    display: none;
+  }
+}
+
+.header-pp-icon {
+  max-height: 100px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.header-user-icon {
+  max-height: 50px;
+}
+
+.task-list {
+  flex-basis: 500px;
+  flex-grow: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.voter-list {
+  flex-basis: 100px;
+  flex-grow: 1;
+  position: sticky;
+  top: 1rem;
+}
+
+.voter-list ul {
+  list-style: none;
+  padding: 0.5rem;
+}
+
+.voter-list li {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.voter-list li:nth-child(1) {
+  padding-top: 0;
+}
+
+.voter-list li button {
+  display: none;
+}
+
+.voter-list li:hover button {
+  display: contents;
+}
+
+.user-corner {
+  /* CSS reset on button */
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
