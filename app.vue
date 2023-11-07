@@ -2,46 +2,24 @@
   <header>
     <img
       src="planning-poker-white-svgrepo-com.svg"
-      alt="Poker Planning Icon"
+      alt="Planning Poker Icon"
       class="header-pp-icon"
+      width="100"
+      height="100"
     />
     <h1>Planning Poker</h1>
-    <button class="user-corner" id="user-corner" @click="openDialog">
-      <img
-        src="user-circle-svgrepo-com.svg"
-        alt="User Profile Icon"
-        class="header-user-icon"
-      />
-      <p>{{ localUser.name }}</p>
-    </button>
+    <UserCorner :user="localUser" />
   </header>
 
   <main>
     <section class="task-list">
       <h1>Tasks</h1>
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Points</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="task in tasks">
-            <td>{{ task.name }}</td>
-            <td>{{ task.points }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <TaskTable :tasks="tasks" />
     </section>
 
     <section class="voter-list">
       <h1>Voters</h1>
-      <ul>
-        <li v-for="voter in voters">
-          <button v-if="localUser.isAdmin">🗑️</button>{{ voter.name }}
-        </li>
-      </ul>
+      <ParticipantList :participants="participants" :isAdmin="false" />
     </section>
   </main>
 
@@ -56,7 +34,7 @@
 
 <script setup>
 var tasks = ref([]);
-var voters = ref([]);
+var participants = ref([]);
 var localUser = ref({
   name: "Username",
   id: uuidv4(),
@@ -77,7 +55,7 @@ for (var i = 1; i <= 30; i++) {
   tasks.value.push({ name: "Some task " + i + " - Do a thing", points: 0 });
 }
 
-voters.value = [
+participants.value = [
   { name: "Alice", id: uuidv4(), isAdmin: false },
   { name: "Bob", id: uuidv4(), isAdmin: false },
   { name: "Cecilia", id: uuidv4(), isAdmin: false },
