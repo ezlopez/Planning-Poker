@@ -19,7 +19,11 @@
 
     <section class="voter-list">
       <h1>Voters</h1>
-      <ParticipantList :participants="participants" :isAdmin="false" />
+      <ParticipantList
+        :participants="participants"
+        :isAdmin="localUser.isAdmin"
+        @delete="deleteParticipant"
+      />
     </section>
   </main>
 
@@ -45,6 +49,11 @@ const handleUserUpdate = (newSettings) => {
   console.log(newSettings);
   localUser.value.name = newSettings.name;
   localUser.value.isAdmin = newSettings.isAdmin;
+};
+
+const deleteParticipant = (id) => {
+  console.log("Main deleting user " + id);
+  participants.value = participants.value.filter((p) => p.id != id);
 };
 
 function uuidv4() {

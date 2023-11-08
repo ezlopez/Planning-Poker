@@ -133,14 +133,6 @@ tr:nth-child(odd) {
   padding-top: 0;
 }
 
-.voter-list li button {
-  display: none;
-}
-
-.voter-list li:hover button {
-  display: contents;
-}
-
 .user-corner {
   /* CSS reset on button */
   background: none;
