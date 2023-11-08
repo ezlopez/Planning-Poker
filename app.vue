@@ -8,7 +8,7 @@
       height="100"
     />
     <h1>Planning Poker</h1>
-    <UserCorner :user="localUser" />
+    <UserCorner :user="localUser" @update="handleUserUpdate" />
   </header>
 
   <main>
@@ -41,6 +41,12 @@ var localUser = ref({
   isAdmin: true,
 });
 
+const handleUserUpdate = (newSettings) => {
+  console.log(newSettings);
+  localUser.value.name = newSettings.name;
+  localUser.value.isAdmin = newSettings.isAdmin;
+};
+
 function uuidv4() {
   return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
     (
@@ -52,7 +58,11 @@ function uuidv4() {
 
 // ********* Adding fake data *********
 for (var i = 1; i <= 30; i++) {
-  tasks.value.push({ name: "Some task " + i + " - Do a thing", points: 0 });
+  tasks.value.push({
+    name: "Some task " + i + " - Do a thing",
+    points: 0,
+    id: uuidv4(),
+  });
 }
 
 participants.value = [

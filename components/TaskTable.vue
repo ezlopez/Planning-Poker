@@ -7,8 +7,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="task in tasks">
-        <td>{{ task.name }}</td>
+      <tr v-for="task in tasks" :key="task.id">
+        <td><input type="text" :value="task.name" /></td>
         <td>{{ task.points }}</td>
       </tr>
     </tbody>
@@ -16,10 +16,21 @@
 </template>
 
 <script setup>
-const { tasks } = defineProps({
+const props = defineProps({
   tasks: {
     type: Object,
     required: true,
   },
 });
+
+const tasks = reactive(props.tasks);
 </script>
+
+<style scoped>
+input {
+  width: 100%;
+  background-color: inherit;
+  border: none;
+  font: inherit;
+}
+</style>

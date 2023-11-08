@@ -11,6 +11,7 @@ html {
 
 header {
   border: 2px solid black;
+  border-top: none;
   background-color: slategray;
   display: flex;
   flex-direction: row;
@@ -35,6 +36,7 @@ main {
 
 footer {
   border: 2px solid black;
+  border-bottom: none;
   width: 100%;
   background-color: slategray;
   color: white;
