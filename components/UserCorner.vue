@@ -16,16 +16,22 @@
       <input
         id="username-edit"
         v-model="editedValues.name"
+        class="dialog-input-text"
         pattern="[a-zA-Z0-9_]{1,32}"
         title="[a-zA-Z0-9_]{1,32}"
       />
       <br />
-      <input id="isAdmin-edit" type="checkbox" v-model="editedValues.isAdmin" />
+      <input
+        id="isAdmin-edit"
+        type="checkbox"
+        v-model="editedValues.isAdmin"
+        class="dialog-input-checkbox"
+      />
       <label for="isAdmin-edit">Admin</label>
       <br />
       <div class="dialog-footer">
         <button @click="submitValues">OK</button>
-        <button @click="dialogCancel">Cancel</button>
+        <button>Cancel</button>
       </div>
     </form>
   </dialog>
@@ -47,6 +53,8 @@ const editedValues = ref({
 });
 
 const openDialog = () => {
+  resetEditedValues();
+
   const dialog = document.getElementById("user-edit-dialog");
   dialog.showModal();
   dialog.addEventListener("cancel", (event) => {
@@ -59,7 +67,7 @@ const submitValues = () => {
   emit("update", editedValues.value);
 };
 
-const dialogCancel = () => {
+const resetEditedValues = () => {
   editedValues.value = {
     name: user.name,
     isAdmin: user.isAdmin,
@@ -84,13 +92,28 @@ dialog::backdrop {
 
 dialog h2 {
   margin-bottom: 1em;
+  text-align: center;
+}
+
+dialog :is(button, input) {
+  font: inherit;
 }
 
 .dialog-footer {
   width: 100%;
   display: flex;
-  margin-top: 1rem;
+  margin-top: 0.2rem;
   justify-content: flex-end;
   gap: 1rem;
+}
+
+.dialog-input-text {
+  margin-left: 1rem;
+  max-width: 8rem;
+}
+
+.dialog-input-checkbox {
+  margin-right: 0.6rem;
+  margin-top: 1rem;
 }
 </style>

@@ -27,6 +27,19 @@
     </section>
   </main>
 
+  <dialog id="new-user-dialog">
+    <form method="dialog">
+      <h3>Set your username:</h3>
+      <input
+        type="text"
+        v-model="newUsername"
+        pattern="[a-zA-Z0-9_]{1,32}"
+        title="[a-zA-Z0-9_]{1,32}"
+      />
+      <button @click="saveUsername">OK</button>
+    </form>
+  </dialog>
+
   <footer>
     <p>Made by Zeke</p>
   </footer>
@@ -34,25 +47,62 @@
 
 <style>
 @import url("~/public/style.css");
+
+#new-user-dialog {
+  position: absolute;
+  top: 5rem;
+  margin: auto;
+  border: 2px solid black;
+  padding: 1rem;
+  text-align: center;
+}
+
+#new-user-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#new-user-dialog h3 {
+  margin-bottom: 1rem;
+}
+
+#new-user-dialog input {
+  font: inherit;
+}
+
+#new-user-dialog button {
+  font: inherit;
+  margin-left: 1rem;
+}
 </style>
 
 <script setup>
-var tasks = ref([]);
-var participants = ref([]);
-var localUser = ref({
-  name: "Username",
-  id: uuidv4(),
-  isAdmin: true,
+const tasks = ref([]);
+const participants = ref([]);
+const newUsername = ref("New_User");
+
+const localUser = useCookie("localUser", {
+  default: () => {
+    return {
+      name: "New_User",
+      id: uuidv4(),
+      isAdmin: false,
+      isNew: true,
+    };
+  },
+  sameSite: true,
 });
 
+const saveUsername = () => {
+  localUser.value.name = newUsername;
+  localUser.value.isNew = false;
+};
+
 const handleUserUpdate = (newSettings) => {
-  console.log(newSettings);
   localUser.value.name = newSettings.name;
   localUser.value.isAdmin = newSettings.isAdmin;
 };
 
 const deleteParticipant = (id) => {
-  console.log("Main deleting user " + id);
   participants.value = participants.value.filter((p) => p.id != id);
 };
 
@@ -63,6 +113,17 @@ function uuidv4() {
       (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
     ).toString(16)
   );
+}
+
+// ********* New user check *********
+if (typeof document !== "undefined" && localUser.value.isNew) {
+  console.log("Running new user");
+
+  const dialog = document.getElementById("new-user-dialog");
+  dialog.addEventListener("cancel", (event) => {
+    event.preventDefault();
+  });
+  dialog.showModal();
 }
 
 // ********* Adding fake data *********
