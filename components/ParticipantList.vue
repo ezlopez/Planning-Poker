@@ -27,7 +27,6 @@ const { participants, isAdmin } = defineProps({
 });
 
 const deleteUser = (userId) => {
-  // console.log("Delete user: " + userId);
   emit("delete", userId);
 };
 </script>

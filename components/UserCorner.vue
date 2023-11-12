@@ -63,7 +63,6 @@ const openDialog = () => {
 };
 
 const submitValues = () => {
-  console.log("Submitting");
   emit("update", editedValues.value);
 };
 
