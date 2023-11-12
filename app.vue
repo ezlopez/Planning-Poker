@@ -14,7 +14,11 @@
   <main>
     <section class="task-list">
       <h1>Tasks</h1>
-      <TaskTable :tasks="tasks" @task-edit="submitTaskEdit" />
+      <TaskTable
+        :tasks="tasks"
+        @task-edit="submitTaskEdit"
+        @task-vote="launchTaskVote"
+      />
     </section>
 
     <section class="voter-list">
@@ -109,6 +113,10 @@ const deleteParticipant = (id) => {
 const submitTaskEdit = (editedTask) => {
   const taskIndex = tasks.value.findIndex((task) => task.id === editedTask.id);
   tasks.value[taskIndex] = { ...editedTask };
+};
+
+const launchTaskVote = (taskId) => {
+  console.log("Voting on " + taskId);
 };
 
 function uuidv4() {

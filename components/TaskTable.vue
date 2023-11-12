@@ -7,13 +7,18 @@
       </tr>
     </thead>
     <tbody>
-      <TaskRow v-for="task in tasks" :task="task" @edit="taskEdit" />
+      <TaskRow
+        v-for="task in tasks"
+        :task="task"
+        @edit="taskEdit"
+        @vote="taskVote"
+      />
     </tbody>
   </table>
 </template>
 
 <script setup>
-const emit = defineEmits(["task-edit"]);
+const emit = defineEmits(["task-edit", "task-vote"]);
 const { tasks } = defineProps({
   tasks: {
     type: Object,
@@ -23,5 +28,9 @@ const { tasks } = defineProps({
 
 function taskEdit(task) {
   emit("task-edit", task);
+}
+
+function taskVote(taskId) {
+  emit("task-vote", taskId);
 }
 </script>
