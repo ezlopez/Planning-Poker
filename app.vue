@@ -14,7 +14,7 @@
   <main>
     <section class="task-list">
       <h1>Tasks</h1>
-      <TaskTable :tasks="tasks" />
+      <TaskTable :tasks="tasks" @task-edit="submitTaskEdit" />
     </section>
 
     <section class="voter-list">
@@ -106,6 +106,11 @@ const deleteParticipant = (id) => {
   participants.value = participants.value.filter((p) => p.id != id);
 };
 
+const submitTaskEdit = (editedTask) => {
+  const taskIndex = tasks.value.findIndex((task) => task.id === editedTask.id);
+  tasks.value[taskIndex] = { ...editedTask };
+};
+
 function uuidv4() {
   return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
     (
@@ -115,32 +120,32 @@ function uuidv4() {
   );
 }
 
-// ********* New user check *********
-if (typeof document !== "undefined" && localUser.value.isNew) {
-  console.log("Running new user");
+onMounted(() => {
+  // ********* New user check *********
+  if (localUser.value.isNew) {
+    const dialog = document.getElementById("new-user-dialog");
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+    });
+    dialog.showModal();
+  }
 
-  const dialog = document.getElementById("new-user-dialog");
-  dialog.addEventListener("cancel", (event) => {
-    event.preventDefault();
-  });
-  dialog.showModal();
-}
+  // ********* Adding fake data *********
+  for (var i = 1; i <= 30; i++) {
+    tasks.value.push({
+      name: "Some task " + i + " - Do a thing",
+      points: 0,
+      id: uuidv4(),
+    });
+  }
 
-// ********* Adding fake data *********
-for (var i = 1; i <= 30; i++) {
-  tasks.value.push({
-    name: "Some task " + i + " - Do a thing",
-    points: 0,
-    id: uuidv4(),
-  });
-}
-
-participants.value = [
-  { name: "Alice", id: uuidv4(), isAdmin: false },
-  { name: "Bob", id: uuidv4(), isAdmin: false },
-  { name: "Cecilia", id: uuidv4(), isAdmin: false },
-  { name: "David", id: uuidv4(), isAdmin: false },
-  { name: "Erica", id: uuidv4(), isAdmin: false },
-  { name: "Frank", id: uuidv4(), isAdmin: false },
-];
+  participants.value = [
+    { name: "Alice", id: uuidv4(), isAdmin: false },
+    { name: "Bob", id: uuidv4(), isAdmin: false },
+    { name: "Cecilia", id: uuidv4(), isAdmin: false },
+    { name: "David", id: uuidv4(), isAdmin: false },
+    { name: "Erica", id: uuidv4(), isAdmin: false },
+    { name: "Frank", id: uuidv4(), isAdmin: false },
+  ];
+});
 </script>

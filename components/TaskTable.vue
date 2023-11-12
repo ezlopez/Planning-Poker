@@ -7,30 +7,21 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="task in tasks" :key="task.id">
-        <td><input type="text" :value="task.name" /></td>
-        <td>{{ task.points }}</td>
-      </tr>
+      <TaskRow v-for="task in tasks" :task="task" @edit="taskEdit" />
     </tbody>
   </table>
 </template>
 
 <script setup>
-const props = defineProps({
+const emit = defineEmits(["task-edit"]);
+const { tasks } = defineProps({
   tasks: {
     type: Object,
     required: true,
   },
 });
 
-const tasks = reactive(props.tasks);
-</script>
-
-<style scoped>
-input {
-  width: 100%;
-  background-color: inherit;
-  border: none;
-  font: inherit;
+function taskEdit(task) {
+  emit("task-edit", task);
 }
-</style>
+</script>
