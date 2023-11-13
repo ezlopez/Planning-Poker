@@ -50,7 +50,7 @@
   </dialog>
 
   <footer>
-    <p>Made by Zeke</p>
+    <p>Made by Zeke :)</p>
   </footer>
 </template>
 
@@ -97,8 +97,8 @@ const launchTaskVote = (taskId) => {
   taskToVoteOn.value = { ...tasks.value.find((task) => task.id === taskId) };
 };
 
-const castVote = (voteValue) => {
-  console.log(`Casting vote of ${voteValue} for ${taskToVoteOn.value.id}`);
+const castVote = (taskId, voteValue) => {
+  console.log(`Casting vote of ${voteValue} points for ${taskId}`);
 };
 
 function uuidv4() {

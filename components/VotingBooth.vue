@@ -26,7 +26,7 @@ const cardSelected = ref(0);
 // Functions
 const castVote = (card) => {
   cardSelected.value = card;
-  emit("cast", card);
+  emit("cast", task.id, card);
 };
 </script>
 
@@ -51,6 +51,7 @@ h3 {
   border-radius: 2vw;
   display: grid;
   place-items: center;
+  box-shadow: 5px 5px 5px;
 }
 
 .poker-card:hover {
@@ -64,12 +65,10 @@ h3 {
   user-select: none;
 }
 
-.selected {
-  background-color: slategray;
-}
-
+.selected,
 .selected:hover {
   background-color: slategray;
+  color: aliceblue;
 }
 
 /* Spread cards out at 616px */
@@ -79,12 +78,12 @@ h3 {
   }
 
   .poker-card {
-    width: 10vw;
-    height: 14.3vw;
+    width: min(10vw, 83px);
+    height: min(14.3vw, 121px);
   }
 
   .poker-card p {
-    font-size: 6vw;
+    font-size: clamp(12px, 6vw, 50px);
   }
 }
 </style>
