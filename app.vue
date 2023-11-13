@@ -33,7 +33,7 @@
 
     <section v-if="isShowingResults" class="results-section">
       <h2>Results</h2>
-      <ResultsGraph />
+      <ResultsGraph :results="votingResults" />
     </section>
 
     <section class="voter-list">
@@ -122,6 +122,8 @@ const closeVote = () => {
 const showFakeResults = () => {
   isShowingResults.value = true;
   votingResults.value = {
+    taskId: tasks.value[0].id,
+    taskName: tasks.value[0].name,
     average: 4.66,
     median: 5,
     votes: [
