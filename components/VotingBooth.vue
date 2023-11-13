@@ -7,14 +7,21 @@
       </div>
     </div>
   </div>
+  <div class="button-holder">
+    <button v-if="isAdmin" @click="closeVoting">Close Voting</button>
+  </div>
 </template>
 
 <script setup>
 // emits and props
-const emit = defineEmits(["cast"]);
-const { task } = defineProps({
+const emit = defineEmits(["cast", "close"]);
+const { task, isAdmin } = defineProps({
   task: {
     type: Object,
+    required: true,
+  },
+  isAdmin: {
+    type: Boolean,
     required: true,
   },
 });
@@ -28,6 +35,10 @@ const castVote = (card) => {
   cardSelected.value = card;
   emit("cast", task.id, card);
 };
+
+const closeVoting = () => {
+  emit("close");
+};
 </script>
 
 <style scoped>
@@ -35,11 +46,24 @@ h3 {
   text-align: center;
 }
 
+button {
+  font: inherit;
+  padding: 0.5rem;
+  background-color: rgba(112, 128, 144, 0.393);
+  box-shadow: 2px 2px 2px;
+  margin: 1rem;
+}
+
+.button-holder {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .poker-deck {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
-  margin: 1rem auto;
+  margin: 1rem;
   place-items: center;
 }
 

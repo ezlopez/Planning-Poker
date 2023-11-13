@@ -12,7 +12,7 @@
   </header>
 
   <main>
-    <section v-if="!isVoting" class="task-list">
+    <section v-if="!isVoting && !isShowingResults" class="task-list">
       <h2>Tasks</h2>
       <TaskTable
         :tasks="tasks"
@@ -23,7 +23,17 @@
 
     <section v-if="isVoting" class="voting-section">
       <h2>Voting</h2>
-      <VotingBooth :task="taskToVoteOn" @cast="castVote" />
+      <VotingBooth
+        :task="taskToVoteOn"
+        :isAdmin="localUser.isAdmin"
+        @cast="castVote"
+        @close="closeVote"
+      />
+    </section>
+
+    <section v-if="isShowingResults" class="results-section">
+      <h2>Results</h2>
+      <ResultsGraph />
     </section>
 
     <section class="voter-list">
@@ -33,6 +43,7 @@
         :isAdmin="localUser.isAdmin"
         @delete="deleteParticipant"
       />
+      <button @click="showFakeResults">Show Results</button>
     </section>
   </main>
 
@@ -60,6 +71,8 @@ const participants = ref([]);
 const newUsername = ref("New_User");
 const isVoting = ref(false);
 const taskToVoteOn = ref(null);
+const isShowingResults = ref(false);
+const votingResults = ref(null);
 
 const localUser = useCookie("localUser", {
   default: () => {
@@ -99,6 +112,45 @@ const launchTaskVote = (taskId) => {
 
 const castVote = (taskId, voteValue) => {
   console.log(`Casting vote of ${voteValue} points for ${taskId}`);
+};
+
+const closeVote = () => {
+  isVoting.value = false;
+  taskToVoteOn.value = null;
+};
+
+const showFakeResults = () => {
+  isShowingResults.value = true;
+  votingResults.value = {
+    average: 4.66,
+    median: 5,
+    votes: [
+      {
+        voter: "Alice",
+        vote: 1,
+      },
+      {
+        voter: "Bob",
+        vote: 1,
+      },
+      {
+        voter: "Cecilia",
+        vote: 5,
+      },
+      {
+        voter: "David",
+        vote: 5,
+      },
+      {
+        voter: "Erice",
+        vote: 8,
+      },
+      {
+        voter: "Frank",
+        vote: 8,
+      },
+    ],
+  };
 };
 
 function uuidv4() {
