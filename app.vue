@@ -12,8 +12,8 @@
   </header>
 
   <main>
-    <section class="task-list">
-      <h1>Tasks</h1>
+    <section v-if="!isVoting" class="task-list">
+      <h2>Tasks</h2>
       <TaskTable
         :tasks="tasks"
         @task-edit="submitTaskEdit"
@@ -21,8 +21,13 @@
       />
     </section>
 
+    <section v-if="isVoting" class="voting-section">
+      <h2>Voting</h2>
+      <VotingBooth :task="taskToVoteOn" @cast="castVote" />
+    </section>
+
     <section class="voter-list">
-      <h1>Voters</h1>
+      <h2>Voters</h2>
       <ParticipantList
         :participants="participants"
         :isAdmin="localUser.isAdmin"
@@ -49,40 +54,12 @@
   </footer>
 </template>
 
-<style>
-@import url("~/public/style.css");
-
-#new-user-dialog {
-  position: absolute;
-  top: 5rem;
-  margin: auto;
-  border: 2px solid black;
-  padding: 1rem;
-  text-align: center;
-}
-
-#new-user-dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-#new-user-dialog h3 {
-  margin-bottom: 1rem;
-}
-
-#new-user-dialog input {
-  font: inherit;
-}
-
-#new-user-dialog button {
-  font: inherit;
-  margin-left: 1rem;
-}
-</style>
-
 <script setup>
 const tasks = ref([]);
 const participants = ref([]);
 const newUsername = ref("New_User");
+const isVoting = ref(false);
+const taskToVoteOn = ref(null);
 
 const localUser = useCookie("localUser", {
   default: () => {
@@ -116,7 +93,12 @@ const submitTaskEdit = (editedTask) => {
 };
 
 const launchTaskVote = (taskId) => {
-  console.log("Voting on " + taskId);
+  isVoting.value = true;
+  taskToVoteOn.value = { ...tasks.value.find((task) => task.id === taskId) };
+};
+
+const castVote = (voteValue) => {
+  console.log(`Casting vote of ${voteValue} for ${taskToVoteOn.value.id}`);
 };
 
 function uuidv4() {
@@ -157,3 +139,33 @@ onMounted(() => {
   ];
 });
 </script>
+
+<style>
+@import url("~/public/style.css");
+
+#new-user-dialog {
+  position: absolute;
+  top: 5rem;
+  margin: auto;
+  border: 2px solid black;
+  padding: 1rem;
+  text-align: center;
+}
+
+#new-user-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#new-user-dialog h3 {
+  margin-bottom: 1rem;
+}
+
+#new-user-dialog input {
+  font: inherit;
+}
+
+#new-user-dialog button {
+  font: inherit;
+  margin-left: 1rem;
+}
+</style>
